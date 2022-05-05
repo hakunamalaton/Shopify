@@ -1,9 +1,18 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
-
+  include ActionController::HttpAuthentication::Token
   # GET /products or /products.json
   def index
     @products = Product.all
+    # token = AuthenticateTokenService.encode
+
+    # decode =  AuthenticateTokenService.decode(token)
+    token, options = token_and_options(request)
+    render json: {
+      token: token
+      # token: token,
+      # decode: decode
+    }
   end
 
   # GET /products/1 or /products/1.json
